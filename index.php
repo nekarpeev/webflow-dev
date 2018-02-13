@@ -91,31 +91,42 @@ echo '</pre><hr>';
 $items_array = $items->items;
 
 $fields_array = [];
+$title_array = [];
 //$result['collection_name'] = $collection_name;
+$title_array = array('Collections', 'Item_id', 'Item_name');
 
 foreach ($items_array as $item) {
-    $field['col_name'] = $collection_name;
-    $field['item_name'] = $item->name;
+    $field = [];
+    $field[] = $collection_name;
+    $field[] = $item->_id;
+    $field[] = $item->name;
+
 
     foreach ($valid_name_array as $name) {
+        $title_array[] = 'Field';
+
         if($name === 'igm') {
             $igm = $item->igm;
-            $field['igm_fileId'] = $igm->fileId;
-            $field['igm_url'] = $igm->url;
+            $field[] = $igm->fileId;
+            $field[] = $igm->url;
         }
         else {
-            $field[$name] = $item->$name;
+            $field[] = $item->$name;
         }
     }
     //$fields_array[$item->name] = $field;
     $result[] = $field;
 }
 
-//$result['items'] = $fields_array;
+$result[] = $title_array;
+$result = array_reverse($result);
 
+
+//$result['items'] = $fields_array;
 echo '<pre>';
-print_r($result[0]);
+print_r($result);
 echo '</pre><hr>';
+return $result;
 
 //$result = json_encode($result);
 

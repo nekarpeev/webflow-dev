@@ -96,24 +96,22 @@ $service = new Google_Service_Sheets($client);
 
 $spreadsheetId = '19K3mGVqKXKG44apXGfgaYs6d0iCZ7iU1l529OZYHBcw';
 
-require_once 'index.php';
+$result = require_once 'index.php';
 
-//setProp($spreadsheetId, $service, $result);
+//$result = $result[0];
+
+setProp($spreadsheetId, $service, $result);
 
 //getProp($spreadsheetId, $service);
 
 function setProp($spreadsheetId, $service, $result) {
 
+    $range = 'Лист1!A1:N';
 
-    $form_data = ['privet', 'medved'];
+    foreach($result as $res) {
+        $values[] = $res;
+    }
 
-
-    $range = 'Лист1!A1:NL';
-
-    $values = [
-        $form_data,
-        $form_data
-    ];
     $body = new Google_Service_Sheets_ValueRange([
         'values' => $values
     ]);
