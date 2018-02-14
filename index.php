@@ -6,7 +6,7 @@
 //sites/:site_id/collections
 
 
-$token = 'b12aeb9fad5cbaeab3fc3d60319f0d1ff41fc17e72517f78a65ac4080ab15e57';
+$token = 'e63a3c313ae2aa15713bc12600c5c95bc5a3b2b59a9ca3724fdf25bdd2e24db7';
 
 function authorization($token)
 {
@@ -38,7 +38,7 @@ function getCollection($token)
 
 function getItems($token)
 {
-    $ch = curl_init('https://api.webflow.com/collections/5a7f1b73d2e04c0001f4553b/items?limit=2');
+    $ch = curl_init('https://api.webflow.com/collections/5a7f1b73d2e04c0001f4553b/items?limit=3');
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Authorization: Bearer ' . $token,
             'accept-version: 1.0.0')
@@ -93,39 +93,45 @@ $items_array = $items->items;
 $fields_array = [];
 $title_array = [];
 //$result['collection_name'] = $collection_name;
-$title_array = array('Collections', 'Item_id', 'Item_name');
+
 
 foreach ($items_array as $item) {
     $field = [];
+    $title_array = array('Collections', 'Item_id', 'Item_name');
     $field[] = $collection_name;
     $field[] = $item->_id;
     $field[] = $item->name;
 
 
     foreach ($valid_name_array as $name) {
-        $title_array[] = 'Field';
+        //$title_array[] = 'Field';
 
         if($name === 'igm') {
             $igm = $item->igm;
+            $title_array[] = 'fileId';
             $field[] = $igm->fileId;
+            $title_array[] = 'url';
             $field[] = $igm->url;
         }
         else {
+            $title_array[] = $name;
             $field[] = $item->$name;
         }
     }
     //$fields_array[$item->name] = $field;
+
     $result[] = $field;
 }
 
+//$result[] = $title_res;
 $result[] = $title_array;
 $result = array_reverse($result);
 
 
 //$result['items'] = $fields_array;
-echo '<pre>';
-print_r($result);
-echo '</pre><hr>';
+//echo '<pre>';
+//print_r($result);
+//echo '</pre><hr>';
 return $result;
 
 //$result = json_encode($result);
